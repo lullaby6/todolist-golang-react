@@ -1,0 +1,11 @@
+root = "."
+
+command = "go run ./src/main.go"
+
+[exclude]
+  directory = "^vendor"
+
+[build]
+  wait_time = "3s"
+  exec_delay = "1s"
+  clear_screen = true
