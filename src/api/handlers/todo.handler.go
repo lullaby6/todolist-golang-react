@@ -8,7 +8,7 @@ import (
 func GET(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	statusCode := 202
+	statusCode := 200
 
 	statusText := http.StatusText(statusCode)
 	w.WriteHeader(statusCode)
