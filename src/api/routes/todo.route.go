@@ -9,5 +9,7 @@ import (
 func ToDoRoutes(api *mux.Router) {
 	r := api.PathPrefix("/todo").Subrouter()
 
-	r.HandleFunc("", handlers.GET).Methods("GET")
+	r.HandleFunc("", handlers.GetAllToDos).Methods("GET")
+	r.HandleFunc("", handlers.CreateToDo).Methods("POST")
+	r.HandleFunc("/{id}", handlers.DeleteToDo).Methods("DELETE")
 }

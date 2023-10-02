@@ -9,13 +9,18 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 
+	"todolist-golang-react/src/api/models"
 	"todolist-golang-react/src/api/routes"
+	"todolist-golang-react/src/database"
 )
 
 func main() {
+	database.Connect()
+	database.DB.AutoMigrate(&models.ToDo{})
+
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Error loading .env file.")
+		panic("Error loading .env file.")
 	}
 
 	r := mux.NewRouter()
