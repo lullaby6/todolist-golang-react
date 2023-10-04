@@ -13,7 +13,7 @@ var DB *gorm.DB
 
 func Connect() {
 	if err := godotenv.Load(); err != nil {
-		panic(err)
+		panic(fmt.Sprintf("[ERROR] Problem loading .env file (%s).", err))
 	}
 
 	DB_INFO := map[string]interface{}{
@@ -34,7 +34,7 @@ func Connect() {
 
 	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(fmt.Sprintf("Failed to connect database (%s).", dsn))
+		panic(fmt.Sprintf("[ERROR] Failed to connect database (%s) (%s).", dsn, err))
 	}
 	DB = db
 

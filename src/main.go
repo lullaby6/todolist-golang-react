@@ -18,11 +18,11 @@ func main() {
 	database.Connect()
 
 	if err := database.DB.AutoMigrate(&models.ToDo{}); err != nil {
-		panic(err)
+		panic(fmt.Sprintf("[ERROR] Problem migrating database ToDo table (%s).", err))
 	}
 
 	if err := godotenv.Load(); err != nil {
-		panic(err)
+		panic(fmt.Sprintf("[ERROR] Problem loading .env file (%s).", err))
 	}
 
 	r := mux.NewRouter()
