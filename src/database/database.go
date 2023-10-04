@@ -34,7 +34,7 @@ func Connect() {
 
 	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("Failed to connect database (" + dsn + ").")
+		panic(fmt.Sprintf("Failed to connect database (%s).", dsn))
 	}
 	DB = db
 

@@ -20,8 +20,7 @@ func GetAllToDos(w http.ResponseWriter, r *http.Request) {
 	var todos []models.ToDo
 
 	if err := database.DB.Find(&todos).Error; err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
 
 	data := map[string]interface{}{
@@ -42,8 +41,7 @@ func CreateToDo(w http.ResponseWriter, r *http.Request) {
 
 	var body map[string]interface{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 	var todo models.ToDo
@@ -57,8 +55,7 @@ func CreateToDo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := database.DB.Create(&todo).Error; err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 	data := map[string]interface{}{
@@ -81,15 +78,13 @@ func UpdateToDo(w http.ResponseWriter, r *http.Request) {
 
 	var body map[string]interface{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 	var todo models.ToDo
 
 	if err := database.DB.First(&todo, vars["id"]).Error; err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
-		return
+		panic(err)
 	}
 
 	if title, ok := body["title"].(string); ok {
@@ -101,13 +96,11 @@ func UpdateToDo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := database.DB.Save(&todo).Error; err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 	if err := database.DB.Model(models.ToDo{}).Where("id = ?", vars["id"]).Updates(&todo).Error; err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 	data := map[string]interface{}{
@@ -130,8 +123,7 @@ func DeleteToDo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	if err := database.DB.Delete(&models.ToDo{}, "id = ?", vars["id"]).Error; err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 	data := map[string]interface{}{
