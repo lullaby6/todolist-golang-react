@@ -9,9 +9,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 
-	"todolist-golang-react/src/api/models"
-	"todolist-golang-react/src/api/routes"
 	"todolist-golang-react/src/database"
+	"todolist-golang-react/src/models"
+	"todolist-golang-react/src/routes"
 )
 
 func main() {
