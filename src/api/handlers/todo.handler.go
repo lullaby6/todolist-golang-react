@@ -18,6 +18,7 @@ func GetAllToDos(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(statusCode)
 
 	var todos []models.ToDo
+
 	if err := database.DB.Find(&todos).Error; err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -45,8 +46,14 @@ func CreateToDo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	todo := models.ToDo{
-		Title: body["title"].(string),
+	var todo models.ToDo
+
+	if title, ok := body["title"].(string); ok {
+		todo.Title = title
+	}
+
+	if done, ok := body["done"].(bool); ok {
+		todo.Done = done
 	}
 
 	if err := database.DB.Create(&todo).Error; err != nil {
@@ -79,6 +86,7 @@ func UpdateToDo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var todo models.ToDo
+
 	if err := database.DB.First(&todo, vars["id"]).Error; err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
