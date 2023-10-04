@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 export default function({title, done, id, removeToDo}){
     const ToDoElement = useRef(null)
     const checkboxElement = useRef(null)
-    let animationDuration = 750
+    let animationDuration = 500
 
     useEffect(() => {
         gsap.fromTo(ToDoElement.current, {opacity: .25}, {opacity: 1, duration: animationDuration/1000})
