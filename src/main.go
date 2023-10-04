@@ -16,11 +16,13 @@ import (
 
 func main() {
 	database.Connect()
-	database.DB.AutoMigrate(&models.ToDo{})
 
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file.")
+	if err := database.DB.AutoMigrate(&models.ToDo{}); err != nil {
+		panic(err)
+	}
+
+	if err := godotenv.Load(); err != nil {
+		panic(err)
 	}
 
 	r := mux.NewRouter()

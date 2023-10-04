@@ -12,9 +12,8 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file.")
+	if err := godotenv.Load(); err != nil {
+		panic(err)
 	}
 
 	DB_INFO := map[string]interface{}{

@@ -11,5 +11,6 @@ func ToDoRoutes(api *mux.Router) {
 
 	r.HandleFunc("", handlers.GetAllToDos).Methods("GET")
 	r.HandleFunc("", handlers.CreateToDo).Methods("POST")
+	r.HandleFunc("/{id}", handlers.UpdateToDo).Methods("PUT")
 	r.HandleFunc("/{id}", handlers.DeleteToDo).Methods("DELETE")
 }
