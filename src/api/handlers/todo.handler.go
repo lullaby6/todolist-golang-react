@@ -7,8 +7,8 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"todolist-golang-react/src/api/models"
 	"todolist-golang-react/src/database"
-	"todolist-golang-react/src/models"
 )
 
 func GetAllToDos(w http.ResponseWriter, r *http.Request) {

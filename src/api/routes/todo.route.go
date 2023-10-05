@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/gorilla/mux"
 
-	"todolist-golang-react/src/handlers"
+	"todolist-golang-react/src/api/handlers"
 )
 
 func ToDoRoutes(api *mux.Router) {

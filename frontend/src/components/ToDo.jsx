@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap";
 
-export default function({title, done, id, removeToDo}){
+export default function({ID, Title, Done, removeToDo}){
     const ToDoElement = useRef(null)
     const checkboxElement = useRef(null)
     let animationDuration = 250
@@ -16,16 +16,16 @@ export default function({title, done, id, removeToDo}){
         gsap.to(ToDoElement.current, {opacity: 0, duration: animationDuration/1000})
 
         setTimeout(() => {
-            removeToDo(id)
+            removeToDo(ID)
         }, animationDuration)
     }
 
     return (
-        <li key={id} ref={ToDoElement} className='flex justify-start items-center gap-2 border-b border-gray-300 pb-1'>
+        <li key={ID} ref={ToDoElement} className='flex justify-start items-center gap-2 border-b border-gray-300 pb-1'>
             <div>
             <input ref={checkboxElement} onChange={removeToDoHandler} autoComplete='false' spellCheck="false" type="checkbox" name="" id="" />
             </div>
-            <p>{title}</p>
+            <p>{Title}</p>
         </li>
     )
 }

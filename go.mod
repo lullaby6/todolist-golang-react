@@ -25,6 +25,7 @@ require (
 	github.com/microsoft/go-mssqldb v1.6.0 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
+	github.com/rs/cors v1.10.1 // indirect
 	github.com/spf13/afero v1.10.0 // indirect
 	github.com/tdewolff/parse/v2 v2.6.8 // indirect
 	golang.org/x/crypto v0.13.0 // indirect

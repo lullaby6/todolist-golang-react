@@ -1,22 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react';
 import { v4 as uuidv4 } from "uuid";
+
+import useFetch from './hooks/useFetch';
 
 import ToDo from './components/ToDo';
 
 export default function App() {
   const [todos, setTodos] = useState([])
+  const [reload, setReload] = useState(false)
+  const {data, loading, error} = useFetch('http://localhost:3000/api/todo')
 
-  function addToDo(e){
+  useEffect(() => {
+    if(reload) {
+      setReload(false)
+    }
+  }, [reload])
+
+  useEffect(() => {
+    if(!loading && data) setTodos(data.data);
+  })
+
+  async function addToDo(e){
     e.preventDefault();
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
-    setTodos([...todos, {...formProps, id: uuidv4()}])
     e.target.querySelectorAll('input').forEach(e => {e.value = ''})
+
+    // setTodos([...todos, {...formProps, id: uuidv4()}])
+
+    await fetch(`http://localhost:3000/api/todo`, {
+      method: 'POST',
+      body: JSON.stringify(formProps)
+    })
+
+    setReload(true)
   }
 
-  function removeToDo(id){
-    setTodos(todos.filter(todo => todo.id !== id))
+  async function removeToDo(id){
+    // setTodos(todos.filter(todo => todo.id !== id))
+    await fetch(`http://localhost:3000/api/todo/${id}`, {method: 'DELETE'})
+    setReload(true)
   }
 
   return (
@@ -29,7 +53,7 @@ export default function App() {
         <ul className='p-6 text-gray-700 shadow-2xl flex flex-col justify-center gap-2 rounded border border-gray-100 bg-white relative -top-2'>
           {todos.length > 0
             ? todos.map((todo) =>
-                <ToDo key={todo.id} {...todo} removeToDo={removeToDo}></ToDo>
+                <ToDo key={todo.ID} {...todo} removeToDo={removeToDo}></ToDo>
               )
             : <p className='opacity-75 text-lg'>No ToDos remaining...</p>
           }

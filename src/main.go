@@ -8,15 +8,15 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	"github.com/rs/cors"
 
+	"todolist-golang-react/src/api/models"
+	"todolist-golang-react/src/api/routes"
 	"todolist-golang-react/src/database"
-	"todolist-golang-react/src/models"
-	"todolist-golang-react/src/routes"
 )
 
 func main() {
 	database.Connect()
-
 	if err := database.DB.AutoMigrate(&models.ToDo{}); err != nil {
 		panic(fmt.Sprintf("[ERROR] Problem migrating database ToDo table (%s).", err))
 	}
@@ -32,7 +32,16 @@ func main() {
 
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("public"))))
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://127.0.0.1:5173"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+		AllowedHeaders:   []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+	})
+	handler := c.Handler(r)
+
 	PORT := ":" + os.Getenv("PORT")
 	fmt.Println("Server on port " + os.Getenv("PORT"))
-	log.Fatal(http.ListenAndServe(PORT, r))
+
+	log.Fatal(http.ListenAndServe(PORT, handler))
 }
