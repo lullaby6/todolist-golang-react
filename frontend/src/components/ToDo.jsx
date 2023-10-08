@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap";
 
-export default function({ID, Title, Done, removeToDo}){
+import {removeToDo, updateToDo} from '../services/ToDo'
+
+export default function({ID, Title, Done, removeToDo, setReload}){
     const ToDoElement = useRef(null)
     const checkboxElement = useRef(null)
     let animationDuration = 250
@@ -16,7 +18,7 @@ export default function({ID, Title, Done, removeToDo}){
         gsap.to(ToDoElement.current, {opacity: 0, duration: animationDuration/1000})
 
         setTimeout(() => {
-            removeToDo(ID)
+            removeToDo(ID, setReload)
         }, animationDuration)
     }
 
@@ -25,7 +27,7 @@ export default function({ID, Title, Done, removeToDo}){
             <div>
             <input ref={checkboxElement} onChange={removeToDoHandler} autoComplete='false' spellCheck="false" type="checkbox" name="" id="" />
             </div>
-            <p>{Title}</p>
+            <input onChange={e => updateToDo(ID, e.target.value, setReload)} type="text" className="focus:outline-none" autoComplete='false' spellCheck='false' defaultValue={Title}/>
         </li>
     )
 }
