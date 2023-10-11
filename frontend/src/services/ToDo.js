@@ -1,4 +1,5 @@
 // import { v4 as uuidv4 } from "uuid";
+const API_URL = import.meta.env.VITE_API_URL
 
 export async function addToDo(event, setReload){
     event.preventDefault();
@@ -8,7 +9,7 @@ export async function addToDo(event, setReload){
 
     // setTodos([...todos, {...formProps, id: uuidv4()}])
 
-    await fetch(`http://localhost:3000/api/todo`, {
+    await fetch(`${API_URL}/api/todo`, {
       method: 'POST',
       body: JSON.stringify(formProps)
     })
@@ -17,7 +18,7 @@ export async function addToDo(event, setReload){
 }
 
 export async function updateToDo(id, title, setReload) {
-    await fetch(`http://localhost:3000/api/todo/${id}`, {
+    await fetch(`${API_URL}/api/todo/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
         title
@@ -29,6 +30,6 @@ export async function updateToDo(id, title, setReload) {
 
 export async function removeToDo(id, setReload){
     // setTodos(todos.filter(todo => todo.id !== id))
-    await fetch(`http://localhost:3000/api/todo/${id}`, {method: 'DELETE'})
+    await fetch(`${API_URL}/api/todo/${id}`, {method: 'DELETE'})
     setReload(true)
 }

@@ -1,15 +1,12 @@
-#build stage
-FROM golang:alpine AS builder
-RUN apk add --no-cache git
-WORKDIR /go/src/app
+FROM golang:alpine AS build
+WORKDIR /go/src/todo
 COPY . .
-RUN go get -d -v ./...
-RUN go build -o /go/bin/app -v ./...
+WORKDIR /go/src/todo/src
+RUN go build -o main
 
-#final stage
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates
-COPY --from=builder /go/bin/app /app
-ENTRYPOINT /app
-LABEL Name=todolistgolangreact Version=0.0.1
+COPY --from=build /go/src/todo /todo
+ENTRYPOINT /todo
+COPY ./public ./public
 EXPOSE 3000
+CMD ["./main"]

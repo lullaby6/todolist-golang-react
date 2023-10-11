@@ -1,10 +1,30 @@
-version: '3.4'
-
+version: '3'
 services:
-  todolistgolangreact:
-    image: todolistgolangreact
+  todo:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile.go
     ports:
-      - 3000:3000
+      - "3000:3000"
+    environment:
+      DB_SERVER: "DESKTOP-LK9AQTD"
+      DB_USER: "admin"
+      DB_PASS: "admin"
+      DB_HOST: "localhost"
+      DB_PORT: 1433
+      DB_NAME: "todos"
+    depends_on:
+      - database
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "admin"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+
+networks:
+  backend:

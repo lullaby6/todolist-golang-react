@@ -8,7 +8,8 @@ import ToDo from './components/ToDo'
 export default function App() {
   const [todos, setTodos] = useState([])
   const [reload, setReload] = useState(false)
-  const {data, loading, error} = useFetch('http://localhost:3000/api/todo')
+  const API_URL = import.meta.env.VITE_API_URL
+  const {data, loading, error} = useFetch(`${API_URL}/api/todo`)
 
   useEffect(() => {
     if(reload) {
