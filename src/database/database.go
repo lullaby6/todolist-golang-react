@@ -13,13 +13,14 @@ var DB *gorm.DB
 
 func Connect() {
 	if err := godotenv.Load(); err != nil {
-		panic(fmt.Sprintf("[ERROR] Problem loading .env file (%s).", err))
+		fmt.Printf("[ERROR] Problem loading .env file (%s).", err)
 	}
 
-	dsn := fmt.Sprintf("DESKTOP-LK9AQTD://%s:%s@%s:%s?database=%s",
+	dsn := fmt.Sprintf("%s://%s:%s@%s:%s?database=%s",
+		os.Getenv("DB_SERVER"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASS"),
-		os.Getenv("DB_SERVER"),
+		os.Getenv("DB_HOST"),
 		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"),
 	)

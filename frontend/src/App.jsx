@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react';
 
-import {addToDo, removeToDo} from './services/ToDo'
+import {addToDo} from './services/ToDo'
 import useFetch from './hooks/useFetch'
 import ToDo from './components/ToDo'
 
@@ -31,7 +31,7 @@ export default function App() {
         <ul className='p-6 text-gray-700 shadow-2xl flex flex-col justify-center gap-2 rounded border border-gray-100 bg-white relative -top-2'>
           {todos.length > 0
             ? todos.map((todo) =>
-                <ToDo key={todo.ID} {...todo} removeToDo={removeToDo} setReload={setReload}></ToDo>
+                <ToDo key={todo.ID} {...todo} setReload={setReload}></ToDo>
               )
             : <p className='opacity-75 text-lg'>No ToDos remaining...</p>
           }

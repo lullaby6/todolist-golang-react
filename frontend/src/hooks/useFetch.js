@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useFetch(url, options = {}) {
+export default function useFetch(url, options = {}) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -8,18 +8,14 @@ function useFetch(url, options = {}) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(url, {
+        const res = await fetch(url, {
           method: options.method || 'GET',
           body: options.body || null,
           ...options,
         });
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const jsonData = await response.json();
-        setData(jsonData);
+        const data = await res.json();
+        setData(data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -32,5 +28,3 @@ function useFetch(url, options = {}) {
 
   return { data, loading, error };
 }
-
-export default useFetch;
